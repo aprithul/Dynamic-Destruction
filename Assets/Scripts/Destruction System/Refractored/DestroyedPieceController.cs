@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyedPieceController : MonoBehaviour
 {
-    [HideInInspector] public bool is_connected = true;
+    public bool is_connected = true;
     [HideInInspector] public bool visited = false;
     public List<DestroyedPieceController> connected_to;
 
@@ -25,6 +25,8 @@ public class DestroyedPieceController : MonoBehaviour
         _starting_pos = transform.position;
         _starting_orientation = transform.rotation;
         _starting_scale = transform.localScale;
+
+        transform.localScale *= 1.02f;
 
         _rigidbody = GetComponent<Rigidbody>();
     }

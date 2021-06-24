@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DestructableObjectController : MonoBehaviour
 {
-    public GameObject root;
-    [HideInInspector] public DestroyedPieceController root_dest_piece;
+    public GameObject[] roots = new GameObject[4];
+    [HideInInspector] public DestroyedPieceController[] root_dest_pieces = new DestroyedPieceController[4];
 
     private List<DestroyedPieceController> destroyed_pieces = new List<DestroyedPieceController>();
 
@@ -23,7 +23,11 @@ public class DestructableObjectController : MonoBehaviour
             _mc.convex = true;
             destroyed_pieces.Add(_dpc);
         }
-        root_dest_piece = root.GetComponent<DestroyedPieceController>();
+
+        for (int _i = 0; _i < 4; _i++)
+        {
+            root_dest_pieces[_i] = roots[_i].GetComponent<DestroyedPieceController>();
+        }
         StartCoroutine(run_physics_steps(10));
     }
 
@@ -40,7 +44,8 @@ public class DestructableObjectController : MonoBehaviour
 
 
             // do a breadth first search to find all connected pieces
-            find_all_connected_pieces(root_dest_piece);
+            for(int _i=0; _i<4; _i++)
+                find_all_connected_pieces(root_dest_pieces[_i]);
 
             // drop all pieces not reachable from root
             foreach (var piece in destroyed_pieces)
